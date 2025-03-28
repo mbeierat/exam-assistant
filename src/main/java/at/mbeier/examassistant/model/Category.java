@@ -27,4 +27,29 @@ public class Category implements GIFTFormattable, MoodleXMLFormattable {
         this.questions.add(question);
     }
 
+    @Override
+    public String toGIFTString() {
+        StringBuilder sb = new StringBuilder("$CATEGORY: $course$/top/").append(this.name);
+        this.questions.forEach(question -> sb.append(question.toGIFTString()));
+        return sb.toString();
+    }
+
+    @Override
+    public void appendXMLElements(Document doc, Element parent) {
+        Element question = doc.createElement("question");
+        question.setAttribute("type", "category");
+        Element category = doc.createElement("category");
+        Element text = doc.createElement("text");
+        text.setNodeValue("$course$/top/" + this.name);
+        question.appendChild(category);
+        category.appendChild(text);
+        Element info = doc.createElement("info");
+        info.setAttribute("format", "html");
+        Element text1 = doc.createElement("text");
+        question.appendChild(info);
+        info.appendChild(text1);
+        for (Question q : this.questions) {
+            q.appendXMLElements(doc, parent);
+        }
+    }
 }
