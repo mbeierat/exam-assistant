@@ -6,14 +6,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public abstract class Question implements GIFTFormattable, MoodleXMLFormattable {
-    private String title;
-    private String question;
-    private int points;
+    private final String title;
+    private final String question;
+    private final int points;
 
-    public Question(String title, String question, int points) {
+    public Question(String title, String question, String points) {
         this.title = title;
         this.question = question;
-        this.points = points;
+        this.points = Integer.parseInt(points);
     }
 
     public int getPoints() {
