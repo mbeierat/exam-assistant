@@ -1,6 +1,8 @@
 package at.mbeier.examassistant.model;
 
 import at.mbeier.examassistant.model.questions.Question;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
