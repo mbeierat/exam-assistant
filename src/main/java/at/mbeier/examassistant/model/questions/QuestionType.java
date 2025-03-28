@@ -1,6 +1,6 @@
 package at.mbeier.examassistant.model.questions;
 
-public enum QuestionTypes {
+public enum QuestionType {
     MULTIPLE_CHOICE_QUESTION("MultipleChoice", MultipleChoiceQuestion.class),
     SINGLE_CHOICE_QUESTION("SingleChoice", SingleChoiceQuestion.class),
     ALL_OR_NOTHING_MC_QUESTION("AllOrNothing", AllOrNothingMCQuestion.class),
@@ -14,7 +14,7 @@ public enum QuestionTypes {
     private String identifier;
     private Class<? extends Question> questionClass;
 
-    QuestionTypes(String identifier, Class<? extends Question> questionClass) {
+    QuestionType(String identifier, Class<? extends Question> questionClass) {
         this.identifier = identifier;
         this.questionClass = questionClass;
     }
