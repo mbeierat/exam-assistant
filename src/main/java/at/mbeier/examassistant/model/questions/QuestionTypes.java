@@ -1,15 +1,15 @@
 package at.mbeier.examassistant.model.questions;
 
 public enum QuestionTypes {
-    MULTIPLE_CHOICE_QUESTION("multipleChoiceQuestion"),
-    SINGLE_CHOICE_QUESTION("singleChoiceQuestion"),
-    ALL_OR_NOTHING_QUESTION("allOrNothingQuestion"),
-    TRUE_FALSE_QUESTION("trueFalseQuestion"),
-    SHORT_ANSWER_QUESTION("shortAnswerQuestion"),
-    NUMERICAL_QUESTION("numericQuestion"),
-    MATCHING_QUESTION("matchingQuestion"),
-    ESSAY_QUESTION("essayQuestion"),
-    CLOZE_QUESTION("clozeQuestion"),;
+    MULTIPLE_CHOICE_QUESTION("MultipleChoice"),
+    SINGLE_CHOICE_QUESTION("SingleChoice"),
+    ALL_OR_NOTHING_QUESTION("AllOrNothing"),
+    TRUE_FALSE_QUESTION("True/False"),
+    SHORT_ANSWER_QUESTION("ShortAnswer"),
+    NUMERICAL_QUESTION("Numerical"),
+    MATCHING_QUESTION("Matching"),
+    ESSAY_QUESTION("Essay"),
+    CLOZE_QUESTION("Cloze"),;
 
     private String identifier;
 
