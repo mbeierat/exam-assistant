@@ -1,5 +1,8 @@
 package at.mbeier.examassistant.model.questions;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public enum QuestionType {
     MULTIPLE_CHOICE_QUESTION("MultipleChoice", MultipleChoiceQuestion.class),
     SINGLE_CHOICE_QUESTION("SingleChoice", SingleChoiceQuestion.class),
@@ -11,11 +14,29 @@ public enum QuestionType {
     ESSAY_QUESTION("Essay", EssayQuestion.class),
     CLOZE_QUESTION("Cloze", ClozeQuestion.class);
 
-    private String identifier;
-    private Class<? extends Question> questionClass;
+    private final String identifier;
+    private final Class<? extends Question> questionClass;
 
     QuestionType(String identifier, Class<? extends Question> questionClass) {
         this.identifier = identifier;
         this.questionClass = questionClass;
+    }
+
+    public Question createNewQuestion(String title, String question, String points, String[] answers) {
+        try {
+            Constructor<? extends Question> constructor = questionClass.getConstructor(String.class, String.class, String.class, String[].class);
+            return constructor.newInstance(title, question, points, answers);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException("couldn't create new instance of question " + this.identifier, e);
+        }
+    }
+
+    public static QuestionType getQuestionType(String identifier) {
+        for (QuestionType questionType : values()) {
+            if (questionType.identifier.equals(identifier)) {
+                return questionType;
+            }
+        }
+        return null;
     }
 }
