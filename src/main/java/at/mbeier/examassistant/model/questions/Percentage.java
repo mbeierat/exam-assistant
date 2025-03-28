@@ -44,11 +44,44 @@ public enum Percentage {
     M90("-90%", -90.0),
     M100("-100%", -100.0),;
 
-    private String representation;
-    private double percentage;
+    private final String representation;
+    private final double percentage;
 
     Percentage(String representation, double percentage) {
         this.representation = representation;
         this.percentage = percentage;
+    }
+
+    public static Percentage getPercentage(String representation) {
+        for (Percentage percentage : Percentage.values()) {
+            if (percentage.representation.equals(representation)) {
+                return percentage;
+            }
+        }
+        return null;
+    }
+
+    public static Percentage getPercentage(double percentage) {
+        double rounded = Math.round(percentage * 100000.0) / 100000.0;
+        for (Percentage p : Percentage.values()) {
+            if (p.percentage == rounded) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public static Percentage calculate(int correct, int wrong) {
+        double total = correct + wrong;
+        return Percentage.getPercentage(correct / total * 100.0);
+    }
+
+    public String getGIFTValue() {
+        if (this.equals(P0)) return "";
+        return "%" + this.representation;
+    }
+
+    public String getXMLValue() {
+        return this.representation.substring(0, this.representation.lastIndexOf("%"));
     }
 }
