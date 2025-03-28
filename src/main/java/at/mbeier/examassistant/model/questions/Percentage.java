@@ -61,6 +61,11 @@ public enum Percentage {
         return this.representation.substring(0, this.representation.lastIndexOf("%"));
     }
 
+    @Override
+    public String toString() {
+        return this.representation;
+    }
+
     public static Percentage getPercentage(String representation) {
         for (Percentage percentage : Percentage.values()) {
             if (percentage.representation.equals(representation)) {

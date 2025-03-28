@@ -22,6 +22,11 @@ public enum QuestionType {
         this.questionClass = questionClass;
     }
 
+    @Override
+    public String toString() {
+        return this.identifier;
+    }
+
     public Question createNewQuestion(String title, String question, String points, String[] answers) {
         try {
             Constructor<? extends Question> constructor = questionClass.getConstructor(String.class, String.class, String.class, String[].class);
