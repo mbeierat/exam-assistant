@@ -9,7 +9,7 @@ public enum QuestionTypes {
     NUMERICAL_QUESTION("Numerical", NumericalQuestion.class),
     MATCHING_QUESTION("Matching", MatchingQuestion.class),
     ESSAY_QUESTION("Essay", EssayQuestion.class),
-    CLOZE_QUESTION("Cloze", ClozeQuestion.class),;
+    CLOZE_QUESTION("Cloze", ClozeQuestion.class);
 
     private String identifier;
     private Class<? extends Question> questionClass;
