@@ -77,7 +77,6 @@ public class OutputFile implements GIFTFormattable, MoodleXMLFormattable {
         StringBuilder builder = new StringBuilder();
         for (Category category : this.categories) {
             builder.append(category.toGIFTString());
-            builder.append(GIFTFormattable.GIFT_CATEGORY_SEPERATOR);
         }
         return builder.toString();
     }

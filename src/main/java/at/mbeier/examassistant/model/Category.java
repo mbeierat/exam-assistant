@@ -32,7 +32,8 @@ public class Category implements GIFTFormattable, MoodleXMLFormattable {
     @Override
     public String toGIFTString() {
         StringBuilder sb = new StringBuilder("$CATEGORY: $course$/top/").append(this.name);
-        this.questions.forEach(question -> sb.append(question.toGIFTString()));
+        sb.append(GIFTFormattable.GIFT_CATEGORY_SEPERATOR);
+        this.questions.forEach(question -> sb.append(question.toGIFTString()).append(GIFTFormattable.GIFT_CATEGORY_SEPERATOR));
         return sb.toString();
     }
 
