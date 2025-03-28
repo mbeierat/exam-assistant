@@ -52,6 +52,15 @@ public enum Percentage {
         this.percentage = percentage;
     }
 
+    public String getGIFTValue() {
+        if (this.equals(P0)) return "";
+        return "%" + this.representation;
+    }
+
+    public String getXMLValue() {
+        return this.representation.substring(0, this.representation.lastIndexOf("%"));
+    }
+
     public static Percentage getPercentage(String representation) {
         for (Percentage percentage : Percentage.values()) {
             if (percentage.representation.equals(representation)) {
@@ -74,14 +83,5 @@ public enum Percentage {
     public static Percentage calculate(int correct, int wrong) {
         double total = correct + wrong;
         return Percentage.getPercentage(correct / total * 100.0);
-    }
-
-    public String getGIFTValue() {
-        if (this.equals(P0)) return "";
-        return "%" + this.representation;
-    }
-
-    public String getXMLValue() {
-        return this.representation.substring(0, this.representation.lastIndexOf("%"));
     }
 }
