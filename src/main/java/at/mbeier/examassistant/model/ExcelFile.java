@@ -12,6 +12,15 @@ import java.util.List;
 
 public class ExcelFile {
 
+    public static final int CATEGORY_COLUMN = 0;
+    public static final int QUESTION_TYPE_COLUMN = 1;
+    public static final int TITLE_COLUMN = 2;
+    public static final int QUESTION_COLUMN = 3;
+    public static final int POINT_COLUMN = 4;
+    public static final int CHAPTER_COLUMN = 5;
+    public static final int COMMENT_COLUMN = 6;
+    public static final int ANSWER_COLUMN = 7;
+
     private final List<Row> questionRows;
 
     public ExcelFile(String filePath) {
