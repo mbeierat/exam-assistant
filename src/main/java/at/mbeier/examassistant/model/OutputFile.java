@@ -28,7 +28,7 @@ public class OutputFile implements GIFTFormattable, MoodleXMLFormattable {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return this.categories;
     }
 
     public void exportXMLFile() {
