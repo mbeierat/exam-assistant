@@ -61,6 +61,10 @@ public enum Percentage {
         return this.representation.substring(0, this.representation.lastIndexOf("%"));
     }
 
+    public boolean isCorrect() {
+        return this.percentage > 0.0;
+    }
+
     @Override
     public String toString() {
         return this.representation;

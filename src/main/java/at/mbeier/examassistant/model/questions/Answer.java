@@ -8,12 +8,10 @@ import org.w3c.dom.Element;
 public class Answer implements GIFTFormattable, MoodleXMLFormattable {
 
     private final String answer;
-    private final boolean correct;
     private final Percentage weight;
 
-    public Answer(String answer, boolean correct, Percentage weight) {
+    public Answer(String answer, Percentage weight) {
         this.answer = answer;
-        this.correct = correct;
         this.weight = weight;
     }
 
