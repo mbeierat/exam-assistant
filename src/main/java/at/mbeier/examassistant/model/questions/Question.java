@@ -30,11 +30,45 @@ public abstract class Question implements GIFTFormattable, MoodleXMLFormattable 
 
     @Override
     public String toGIFTString() {
-        return "";
+        return "::" + this.title + "::" + "[html]" + this.question;
     }
 
     @Override
     public void appendXMLElements(Document doc, Element parent) {
+        Element name = doc.createElement("name");
+        Element nameText = doc.createElement("text");
+        nameText.setNodeValue(this.title);
+        name.appendChild(nameText);
+        parent.appendChild(name);
+        Element questiontext = doc.createElement("questiontext");
+        questiontext.setAttribute("format", "html");
+        Element questiontextText = doc.createElement("text");
+        questiontextText.setNodeValue(this.question);
+        questiontext.appendChild(questiontextText);
+        parent.appendChild(questiontext);
+        Element generalfeedback = doc.createElement("generalfeedback");
+        generalfeedback.setAttribute("format", "html");
+        Element generalfeedbackText = doc.createElement("text");
+        generalfeedback.appendChild(generalfeedbackText);
+        parent.appendChild(generalfeedback);
+        Element defaultgrade = doc.createElement("defaultgrade");
+        defaultgrade.setNodeValue(this.points + ".0000000");
+        parent.appendChild(defaultgrade);
+        Element penalty = doc.createElement("penalty");
+        penalty.setNodeValue("1.0000000");
+        parent.appendChild(penalty);
+        Element hidden = doc.createElement("hidden");
+        hidden.setNodeValue("0");
+        parent.appendChild(hidden);
+        Element idnumber = doc.createElement("idnumber");
+        parent.appendChild(idnumber);
 
+    }
+
+    @Override
+    public String toString() {
+        return "title='" + title + '\'' +
+                ", question='" + question + '\'' +
+                ", points=" + points;
     }
 }
