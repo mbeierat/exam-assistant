@@ -46,11 +46,6 @@ public abstract class Question implements GIFTFormattable, MoodleXMLFormattable 
         questiontextText.setNodeValue(this.question);
         questiontext.appendChild(questiontextText);
         parent.appendChild(questiontext);
-        Element generalfeedback = doc.createElement("generalfeedback");
-        generalfeedback.setAttribute("format", "html");
-        Element generalfeedbackText = doc.createElement("text");
-        generalfeedback.appendChild(generalfeedbackText);
-        parent.appendChild(generalfeedback);
         Element defaultgrade = doc.createElement("defaultgrade");
         defaultgrade.setNodeValue(this.points + ".0000000");
         parent.appendChild(defaultgrade);
@@ -62,7 +57,6 @@ public abstract class Question implements GIFTFormattable, MoodleXMLFormattable 
         parent.appendChild(hidden);
         Element idnumber = doc.createElement("idnumber");
         parent.appendChild(idnumber);
-
     }
 
     @Override
