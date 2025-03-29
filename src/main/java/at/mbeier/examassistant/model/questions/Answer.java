@@ -41,4 +41,26 @@ public class Answer implements MoodleXMLFormattable {
         Element feedbackText = doc.createElement("text");
         feedback.appendChild(feedbackText);
     }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "answer='" + answer + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
+
+    public static boolean isValidTrueFalseOption(String option) {
+        return option.equals("0") || option.equals("1") ||
+                option.equalsIgnoreCase("true") || option.equalsIgnoreCase("false") ||
+                option.equalsIgnoreCase("t") || option.equalsIgnoreCase("f");
+    }
+
+    public static boolean isOptionTrue(String option) {
+        return option.equals("1") || option.equalsIgnoreCase("true") || option.equalsIgnoreCase("t");
+    }
+
+    public static boolean isOptionFalse(String option) {
+        return option.equals("0") || option.equalsIgnoreCase("false") || option.equalsIgnoreCase("f");
+    }
 }

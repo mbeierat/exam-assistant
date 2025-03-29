@@ -65,6 +65,10 @@ public enum Percentage {
         return this.percentage > 0.0;
     }
 
+    public double getPercentage() {
+        return this.percentage;
+    }
+
     @Override
     public String toString() {
         return this.representation;
@@ -89,8 +93,12 @@ public enum Percentage {
         return null;
     }
 
-    public static Percentage calculate(int correct, int wrong) {
+    public static Percentage calculateCorrectPercentage(int correct, int wrong) {
         double total = correct + wrong;
         return Percentage.getPercentage(correct / total * 100.0);
+    }
+
+    public static Percentage switchSign(Percentage p) {
+        return Percentage.getPercentage(-p.percentage);
     }
 }
