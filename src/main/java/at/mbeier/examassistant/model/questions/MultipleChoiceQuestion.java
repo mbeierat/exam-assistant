@@ -71,7 +71,7 @@ public class MultipleChoiceQuestion extends Question {
     @Override
     public String toGIFTString() {
         StringBuilder builder = new StringBuilder(super.toGIFTString()).append("{");
-        this.answers.forEach(answer -> builder.append(answer.toChoiceGIFTString()));
+        this.answers.forEach(answer -> builder.append(answer.toMultipleChoiceGIFTString()));
         builder.append('}');
         return builder.toString();
     }

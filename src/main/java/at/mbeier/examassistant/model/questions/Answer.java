@@ -15,15 +15,19 @@ public class Answer implements MoodleXMLFormattable {
     }
 
     public String getAnswer() {
-        return answer;
+        return this.answer;
     }
 
     public Percentage getPercentage() {
-        return weight;
+        return this.weight;
     }
 
-    public String toChoiceGIFTString() {
-        return "~" + this.getPercentage().getGIFTValue() + "[html]" + this.answer;
+    public String toMultipleChoiceGIFTString() {
+        return "~" + this.getPercentage().getGIFTValue() + "[html]" + this.getAnswer();
+    }
+
+    public String toSingleChoiceGIFTString() {
+        return (this.getPercentage().isCorrect() ? "=" : "~") + "[html]" + this.getAnswer();
     }
 
     @Override
@@ -45,8 +49,8 @@ public class Answer implements MoodleXMLFormattable {
     @Override
     public String toString() {
         return "Answer{" +
-                "answer='" + answer + '\'' +
-                ", weight=" + weight +
+                "answer='" + this.getAnswer() + '\'' +
+                ", weight=" + this.getPercentage() +
                 '}';
     }
 
