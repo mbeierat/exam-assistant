@@ -41,6 +41,7 @@ public class Category implements GIFTFormattable, MoodleXMLFormattable {
     public void appendXMLElements(Document doc, Element parent) {
         Element question = doc.createElement("question");
         question.setAttribute("type", "category");
+        parent.appendChild(question);
         Element category = doc.createElement("category");
         Element text = doc.createElement("text");
         text.setNodeValue("$course$/top/" + this.name);
