@@ -1,11 +1,10 @@
 package at.mbeier.examassistant.model.questions;
 
-import at.mbeier.examassistant.model.GIFTFormattable;
 import at.mbeier.examassistant.model.MoodleXMLFormattable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Answer implements GIFTFormattable, MoodleXMLFormattable {
+public class Answer implements MoodleXMLFormattable {
 
     private final String answer;
     private final Percentage weight;
@@ -23,8 +22,7 @@ public class Answer implements GIFTFormattable, MoodleXMLFormattable {
         return weight;
     }
 
-    @Override
-    public String toGIFTString() {
+    public String toChoiceGIFTString() {
         return "~" + this.getPercentage().getGIFTValue() + "[html]" + this.answer;
     }
 
