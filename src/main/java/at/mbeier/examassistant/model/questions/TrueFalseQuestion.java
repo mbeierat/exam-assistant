@@ -24,6 +24,10 @@ public class TrueFalseQuestion extends Question {
         this.correct = temp;
     }
 
+    public boolean getCorrectAnswer() {
+        return this.correct;
+    }
+
     @Override
     public String toGIFTString() {
         return super.toGIFTString() + '{' + (this.correct + "").toUpperCase() + '}' ;
