@@ -6,6 +6,7 @@ import at.mbeier.exass.model.questions.*;
 public enum QuestionType {
 
     MULTI_CHOICE("Multiple Choice", MultipleChoice.class),
+    SINGLE_CHOICE("Single Choice", SingleChoice.class),
     ALL_OR_NOTHING_MULTI_CHOICE("Alles/Nichts MC", AllOrNothingMultipleChoice.class),
     TRUE_FALSE("Wahr/Falsch", TrueFalse.class),
     SHORT_ANSWER("Kurzantwort", ShortAnswer.class),
