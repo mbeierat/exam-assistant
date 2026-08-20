@@ -2,6 +2,7 @@ package at.mbeier.exass.view;
 
 import at.mbeier.exass.controller.ExportController;
 import at.mbeier.exass.controller.ImportController;
+import at.mbeier.exass.excel.ImportResult;
 import at.mbeier.exass.model.Category;
 
 import javax.swing.*;
@@ -70,25 +71,49 @@ public class WelcomeFrame extends JFrame {
             return;
         }
         File file = chooser.getSelectedFile();
+        List<String> sheetNames;
         try {
-            List<String> sheetNames = this.importController.listSheetNames(file);
-            String sheetName = sheetNames.size() == 1
-                    ? sheetNames.getFirst()
-                    : chooseSheetName(sheetNames);
-            if (sheetName == null) {
-                return;
-            }
-            this.loadedCategories = this.importController.load(file, sheetName);
-            this.tableModel.setCategories(this.loadedCategories);
-            this.exportButton.setEnabled(!this.loadedCategories.isEmpty());
-            int total = this.loadedCategories.stream().mapToInt(c -> c.getQuestions().size()).sum();
-            this.statusArea.setText(total + " questions across " + this.loadedCategories.size() + " categories loaded.");
-        } catch (Exception ex) {
-            this.loadedCategories = List.of();
-            this.tableModel.setCategories(this.loadedCategories);
-            this.exportButton.setEnabled(false);
-            this.statusArea.setText("Failed to load: " + ex.getMessage());
+            sheetNames = this.importController.listSheetNames(file);
+        } catch (IOException ex) {
+            showErrors(List.of("Could not open file: " + ex.getMessage()));
+            return;
         }
+        String sheetName = sheetNames.size() == 1
+                ? sheetNames.getFirst()
+                : chooseSheetName(sheetNames);
+        if (sheetName == null) {
+            return;
+        }
+
+        ImportResult result = this.importController.load(file, sheetName);
+        if (result.hasErrors()) {
+            showErrors(result.errors());
+        } else {
+            showSuccess(result.categories());
+        }
+    }
+
+    /**
+     * Only called when the import produced zero errors - this is the "only
+     * load into the table if there are no errors" rule.
+     */
+    private void showSuccess(List<Category> categories) {
+        this.loadedCategories = categories;
+        this.tableModel.setCategories(categories);
+        this.exportButton.setEnabled(!categories.isEmpty());
+        int total = categories.stream().mapToInt(c -> c.getQuestions().size()).sum();
+        this.statusArea.setText(total + " questions across " + categories.size() + " categories loaded.");
+    }
+
+    /**
+     * Called whenever the import found one or more problems - nothing gets
+     * loaded into the table, every collected message is shown together.
+     */
+    private void showErrors(List<String> errors) {
+        this.loadedCategories = List.of();
+        this.tableModel.setCategories(this.loadedCategories);
+        this.exportButton.setEnabled(false);
+        this.statusArea.setText(errors.size() + " error(s) found, nothing loaded:\n" + String.join("\n", errors));
     }
 
     private String chooseSheetName(List<String> sheetNames) {

@@ -12,34 +12,39 @@ public final class ImportUtil {
 
     private ImportUtil() {}
 
-    public static List<Category> importSheet(ExcelFile file) {
+    public static ImportResult importSheet(ExcelFile file) {
         List<Category> categories = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
         List<ExcelRow> rows = file.getRows();
         for (ExcelRow row : rows) {
-            List<ExcelCell> cells = row.getCells();
-            if (cells.getFirst().getType() != CellType.STRING) {
-                throw new IllegalArgumentException("Row " + row.getIndex() + " Column 1 (Category Name) needs to be a string");
-            }
-            String catName = (String) cells.getFirst().getContent();
-            if (cells.get(1).getType() != CellType.STRING) {
-                throw new IllegalArgumentException("Row " + row.getIndex() + " Column 2 (Question ID) needs to be a string");
-            }
-            String questionId = (String) cells.get(1).getContent();
-            boolean contains = false;
-            for (Category cat : categories) {
-                if (cat.getName().equals(catName)) {
-                    cat.addQuestion(QuestionType.fromId(questionId).parse(row));
-                    contains = true;
-                    break;
+            try {
+                List<ExcelCell> cells = row.getCells();
+                if (cells.getFirst().getType() != CellType.STRING) {
+                    throw new IllegalArgumentException("Row " + row.getIndex() + " Column 1 (Category Name) needs to be a string");
                 }
-            }
-            if (!contains) {
-                Category category = new Category(catName);
-                category.addQuestion(QuestionType.fromId(questionId).parse(row));
-                categories.add(category);
+                String catName = (String) cells.getFirst().getContent();
+                if (cells.get(1).getType() != CellType.STRING) {
+                    throw new IllegalArgumentException("Row " + row.getIndex() + " Column 2 (Question ID) needs to be a string");
+                }
+                String questionId = (String) cells.get(1).getContent();
+                boolean contains = false;
+                for (Category cat : categories) {
+                    if (cat.getName().equals(catName)) {
+                        cat.addQuestion(QuestionType.fromId(questionId).parse(row));
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) {
+                    Category category = new Category(catName);
+                    category.addQuestion(QuestionType.fromId(questionId).parse(row));
+                    categories.add(category);
+                }
+            } catch (Exception e) {
+                errors.add(e.getMessage());
             }
         }
-        return categories;
+        return new ImportResult(categories, errors);
     }
 
     public static void setStandardQuestionFields(Question q, ExcelRow row) {
