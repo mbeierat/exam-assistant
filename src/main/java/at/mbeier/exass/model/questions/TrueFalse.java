@@ -34,9 +34,9 @@ public class TrueFalse extends Question {
         if (correctCell.getType() == CellType.BOOLEAN) {
             this.correct = (boolean) correctCell.getContent();
         } else if (correctCell.getType() == CellType.NUMERIC) {
-            if (!((int) correctCell.getContent() == 1 || (int) correctCell.getContent() == 0))
+            if (!(((Number) correctCell.getContent()).intValue() == 1 || ((Number) correctCell.getContent()).intValue() == 0))
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column 5 (Correct) needs to be a number (or a boolean) being 1 or 0 as in true or false");
-            this.correct = ((int) correctCell.getContent()) == 1;
+            this.correct = ((Number) correctCell.getContent()).intValue() == 1;
         }
     }
 

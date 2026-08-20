@@ -21,7 +21,7 @@ public final class ImportUtil {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column 1 (Category Name) needs to be a string");
             }
             String catName = (String) cells.getFirst().getContent();
-            if (cells.getFirst().getType() != CellType.STRING) {
+            if (cells.get(1).getType() != CellType.STRING) {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column 2 (Question ID) needs to be a string");
             }
             String questionId = (String) cells.get(1).getContent();
@@ -53,7 +53,7 @@ public final class ImportUtil {
         q.setText(qtext);
         if (row.getCells().get(4).getType() != CellType.NUMERIC)
             throw new IllegalArgumentException("Row " + row.getIndex() + " Column 5 (Points) needs to be a number");
-        int points = (int) row.getCells().get(4).getContent();
+        int points = ((Number) row.getCells().get(4).getContent()).intValue();
         q.setPoints(points);
     }
 }

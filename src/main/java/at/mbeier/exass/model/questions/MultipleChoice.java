@@ -34,7 +34,7 @@ public class MultipleChoice extends Question {
         ExcelCell firstCorrect = row.getCells().get(6);
         if (firstCorrect.getType() == CellType.BOOLEAN ||
                 (firstCorrect.getType() == CellType.NUMERIC &&
-                        ((int) firstCorrect.getContent() == 1 || (int) firstCorrect.getContent() == 0))) {
+                        (((Number) firstCorrect.getContent()).intValue() == 1 || ((Number) firstCorrect.getContent()).intValue() == 0))) {
             mode = InputMode.TRUE_FALSE;
         } else {
             mode = InputMode.WEIGHTED;
@@ -57,14 +57,14 @@ public class MultipleChoice extends Question {
                 if (correctCell.getType() == CellType.BOOLEAN) {
                     correct = (boolean) correctCell.getContent();
                 } else if (correctCell.getType() == CellType.NUMERIC) {
-                    if (!((int) correctCell.getContent() == 1 || (int) correctCell.getContent() == 0))
+                    if (!(((Number) correctCell.getContent()).intValue() == 1 || ((Number) correctCell.getContent()).intValue() == 0))
                         throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Answer Correct) needs to be a number (or a boolean) being 1 or 0 as in true/false mode");
-                    correct = ((int) correctCell.getContent()) == 1;
+                    correct = ((Number) correctCell.getContent()).intValue() == 1;
                 }
             } else {
                 if (correctCell.getType() != CellType.NUMERIC)
                     throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Answer Correct) needs to be a number, as question is in weighted input mode");
-                int value = (int) correctCell.getContent();
+                int value = ((Number) correctCell.getContent()).intValue();
                 correct = value < 0;
                 weight = AnswerWeight.parse(Math.abs(value));
                 if (weight == null)
