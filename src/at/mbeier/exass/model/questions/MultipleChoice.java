@@ -2,6 +2,7 @@ package at.mbeier.exass.model.questions;
 
 import at.mbeier.exass.excel.CellValue;
 import at.mbeier.exass.excel.ExcelRow;
+import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
 import at.mbeier.exass.model.Question;
 import at.mbeier.exass.model.QuestionType;
@@ -28,18 +29,7 @@ public class MultipleChoice extends Question {
 
     @Override
     public void createFrom(ExcelRow row) {
-        if (row.getCells().get(2).getType() != CellType.STRING)
-            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 3 (Question Name) needs to be a string");
-        String qname = (String) row.getCells().get(2).getContent();
-        super.setTitle(qname);
-        if (row.getCells().get(3).getType() != CellType.STRING)
-            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 4 (Question Text) needs to be a string");
-        String qtext = (String) row.getCells().get(3).getContent();
-        super.setText(qtext);
-        if (row.getCells().get(4).getType() != CellType.NUMERIC)
-            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 5 (Points) needs to be a number");
-        int points = (int) row.getCells().get(4).getContent();
-        super.setPoints(points);
+        ImportUtil.setStandardQuestionFields(this, row);
         InputMode mode;
         CellValue firstCorrect = row.getCells().get(6);
         if (firstCorrect.getType() == CellType.BOOLEAN ||

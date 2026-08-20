@@ -1,6 +1,7 @@
 package at.mbeier.exass.excel;
 
 import at.mbeier.exass.model.Category;
+import at.mbeier.exass.model.Question;
 import at.mbeier.exass.model.QuestionType;
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -39,5 +40,20 @@ public final class ImportUtil {
             }
         }
         return categories;
+    }
+
+    public static void setStandardQuestionFields(Question q, ExcelRow row) {
+        if (row.getCells().get(2).getType() != CellType.STRING)
+            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 3 (Question Name) needs to be a string");
+        String qname = (String) row.getCells().get(2).getContent();
+        q.setTitle(qname);
+        if (row.getCells().get(3).getType() != CellType.STRING)
+            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 4 (Question Text) needs to be a string");
+        String qtext = (String) row.getCells().get(3).getContent();
+        q.setText(qtext);
+        if (row.getCells().get(4).getType() != CellType.NUMERIC)
+            throw new IllegalArgumentException("Row " + row.getIndex() + " Column 5 (Points) needs to be a number");
+        int points = (int) row.getCells().get(4).getContent();
+        q.setPoints(points);
     }
 }
