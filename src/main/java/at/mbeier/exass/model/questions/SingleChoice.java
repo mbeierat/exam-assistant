@@ -50,7 +50,8 @@ public class SingleChoice extends Question {
                 correct = ((Number) correctCell.getContent()).intValue() == 1;
             }
             this.answers.add(new MultipleChoiceAnswer(answertext, correct, null));
-            amountCorrect++;
+            if (correct)
+                amountCorrect++;
         }
         if (amountCorrect != 1)
             throw new IllegalArgumentException("A single choice question must have precisely one correct answer");
