@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SingleChoice extends Question {
 
-    private List<MultipleChoiceAnswer> answers;
+    private final List<MultipleChoiceAnswer> answers;
 
     public SingleChoice() {
         super();
