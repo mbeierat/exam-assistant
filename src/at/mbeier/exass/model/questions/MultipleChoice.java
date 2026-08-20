@@ -23,6 +23,7 @@ public class MultipleChoice extends Question {
 
     public MultipleChoice(String title, String text, int points) {
         super(QuestionType.MULTI_CHOICE, title, text, points);
+        this.answers = new ArrayList<>();
     }
 
     @Override
