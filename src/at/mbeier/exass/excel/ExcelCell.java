@@ -2,12 +2,12 @@ package at.mbeier.exass.excel;
 
 import org.apache.poi.ss.usermodel.CellType;
 
-public class CellValue {
+public class ExcelCell {
     private int index;
     private Object content;
     private CellType type;
 
-    public CellValue(int index, Object content, CellType type) {
+    public ExcelCell(int index, Object content, CellType type) {
         this.index = index;
         this.content = content;
         this.type = type;

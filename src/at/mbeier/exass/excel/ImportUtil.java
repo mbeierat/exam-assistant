@@ -16,7 +16,7 @@ public final class ImportUtil {
         List<Category> categories = new ArrayList<>();
         List<ExcelRow> rows = file.getRows();
         for (ExcelRow row : rows) {
-            List<CellValue> cells = row.getCells();
+            List<ExcelCell> cells = row.getCells();
             if (cells.getFirst().getType() != CellType.STRING) {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column 1 (Category Name) needs to be a string");
             }

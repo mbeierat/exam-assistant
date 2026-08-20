@@ -1,6 +1,6 @@
 package at.mbeier.exass.model.questions;
 
-import at.mbeier.exass.excel.CellValue;
+import at.mbeier.exass.excel.ExcelCell;
 import at.mbeier.exass.excel.ExcelRow;
 import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
@@ -31,7 +31,7 @@ public class MultipleChoice extends Question {
     public void createFrom(ExcelRow row) {
         ImportUtil.setStandardQuestionFields(this, row);
         InputMode mode;
-        CellValue firstCorrect = row.getCells().get(6);
+        ExcelCell firstCorrect = row.getCells().get(6);
         if (firstCorrect.getType() == CellType.BOOLEAN ||
                 (firstCorrect.getType() == CellType.NUMERIC &&
                         ((int) firstCorrect.getContent() == 1 || (int) firstCorrect.getContent() == 0))) {
@@ -47,7 +47,7 @@ public class MultipleChoice extends Question {
             String answertext = (String) row.getCells().get(i).getContent();
             boolean correct = false;
             AnswerWeight weight = null;
-            CellValue correctCell;
+            ExcelCell correctCell;
             try {
                 correctCell = row.getCells().get(i + 1);
             } catch (IndexOutOfBoundsException e) {

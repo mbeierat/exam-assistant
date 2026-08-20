@@ -1,7 +1,6 @@
 package at.mbeier.exass.excel;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class ExcelRow {
 
-    private List<CellValue> cells;
+    private List<ExcelCell> cells;
     private int index;
 
     public ExcelRow(Row row) {
@@ -29,11 +28,11 @@ public class ExcelRow {
             if (content == null) {
                 break;
             }
-            this.cells.add(new CellValue(i, content, c.getCellType()));
+            this.cells.add(new ExcelCell(i, content, c.getCellType()));
         }
     }
 
-    public List<CellValue> getCells() {
+    public List<ExcelCell> getCells() {
         return cells;
     }
 
