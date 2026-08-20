@@ -23,10 +23,17 @@ public class XMLExporter extends Exporter {
             Document doc = XMLUtil.newDocument();
             Element quiz = XMLUtil.element(doc, "quiz");
             doc.appendChild(quiz);
+            Element catelement = XMLUtil.question(doc, "category");
+            XMLUtil.append(catelement,
+                    XMLUtil.moodleText(doc, "category", "$module$/top/" + category.getName()),
+                    XMLUtil.moodleText(doc, "info", ""),
+                    XMLUtil.textElement(doc, "idnumber", "")
+            );
+            quiz.appendChild(catelement);
             for (Question question : category.getQuestions()) {
                 quiz.appendChild(question.toXMLElement(doc));
             }
-            String xml = XMLUtil.toXmlString(doc);
+            String xml = XMLUtil.toXMLString(doc);
             Files.writeString(Path.of(super.getFolder(), "export_" + category.getName() + ".XML"), xml);
         }
     }

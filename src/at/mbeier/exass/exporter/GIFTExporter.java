@@ -20,7 +20,7 @@ public class GIFTExporter extends Exporter {
         List<Category> cat = super.getToExport();
         for (Category category : cat) {
             List<String> lines = new ArrayList<>();
-            lines.add(category.getName());
+            lines.add("$CATEGORY: $module$/top/" + category.getName());
             for (Question question : category.getQuestions()) {
                 lines.add(question.toGIFTString());
             }

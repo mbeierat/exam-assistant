@@ -21,8 +21,8 @@ public class MultipleChoice extends Question {
         this.answers = new ArrayList<>();
     }
 
-    public MultipleChoice(String name, String text, int points) {
-        super(QuestionType.MULTI_CHOICE, name, text, points);
+    public MultipleChoice(String title, String text, int points) {
+        super(QuestionType.MULTI_CHOICE, title, text, points);
     }
 
     @Override
@@ -117,7 +117,20 @@ public class MultipleChoice extends Question {
 
     @Override
     public Element toXMLElement(Document doc) {
-        return XMLUtil.element(doc, "question");
+         Element question = XMLUtil.question(doc, "multichoice");
+         XMLUtil.append(question,
+                 XMLUtil.moodleText(doc, "name", super.getTitle()),
+                 XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
+                 XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
+                 XMLUtil.textElement(doc, "single", "false"),
+                 XMLUtil.textElement(doc, "shuffleanswers", "true"),
+                 XMLUtil.textElement(doc, "showstandardinstruction", "0"),
+                 XMLUtil.textElement(doc, "answernumbering", "abc"));
+        for (MultipleChoiceAnswer answer : this.answers) {
+            XMLUtil.append(question,
+                    XMLUtil.answer(doc, (answer.isCorrect() ? "" : "-") + answer.getWeight().getRepresentation(), "html", answer.getText(), "html", ""));
+        }
+        return question;
     }
 }
 
