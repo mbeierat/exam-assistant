@@ -97,11 +97,11 @@ public class MultipleChoice extends Question {
         StringBuilder builder = new StringBuilder("::" + super.getTitle() + "::" +
                 "[html]" + super.getText() + "{");
         for (MultipleChoiceAnswer answer : this.answers) {
-            builder.append("~%").
-                    append(answer.isCorrect() ? "" : "-").
-                    append(answer.getWeight().getRepresentation()).
-                    append("%").
-                    append(answer.getText());
+            builder.append("~%")
+                    .append(answer.isCorrect() ? "" : "-")
+                    .append(answer.getWeight().getRepresentation())
+                    .append("%")
+                    .append(answer.getText());
         }
         builder.append("}");
         return builder.toString();
