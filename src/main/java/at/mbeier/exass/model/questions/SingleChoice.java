@@ -33,7 +33,7 @@ public class SingleChoice extends Question {
         int amountCorrect = 0;
         for (int i = 5; i < row.getCells().size(); i += 2) {
             if (row.getCells().get(i).getType() != CellType.STRING)
-                throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Answer Text) needs to be a string");
+                throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Answer Text) needs to be a string");
             String answertext = (String) row.getCells().get(i).getContent();
             boolean correct = false;
             ExcelCell correctCell;
