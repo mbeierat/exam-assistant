@@ -5,6 +5,8 @@ import at.mbeier.exass.model.questions.*;
 
 public enum QuestionType {
 
+    //TODO Antwortmixer
+
     MULTI_CHOICE("Multiple Choice", MultipleChoice.class),
     SINGLE_CHOICE("Single Choice", SingleChoice.class),
     TRUE_FALSE("Wahr/Falsch", TrueFalse.class),
@@ -14,7 +16,6 @@ public enum QuestionType {
     ALL_OR_NOTHING_MULTI_CHOICE("Alles/Nichts MC", AllOrNothingMultipleChoice.class),
     CALCULATE("Berechnen", Calculate.class),
     MATCH("Zuordnen", Match.class),
-    RANDOM_SHORT_ANSWER_MATCH("Zufällige Kurzantwortzuordnung", RandomShortAnswerMatch.class),
     CLOZE("Lückentext", Cloze.class),
     ORDER("Anordnung", Order.class),
     CALCULATE_MULTI_CHOICE("Multiple Choice Berechnen", CalculateMultipleChoice.class),
