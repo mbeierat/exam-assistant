@@ -4,6 +4,7 @@ import at.mbeier.exass.excel.ExcelCell;
 import at.mbeier.exass.excel.ExcelRow;
 import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
+import at.mbeier.exass.model.AnswerWeight;
 import at.mbeier.exass.model.Question;
 import at.mbeier.exass.model.QuestionType;
 import org.apache.poi.ss.usermodel.CellType;
@@ -55,8 +56,8 @@ public class TrueFalse extends Question {
                 XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
                 XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
                 XMLUtil.textElement(doc, "showstandardinstruction", "0"),
-                XMLUtil.answer(doc, this.correct ? "100" : "0", null, "richtig", "html", ""),
-                XMLUtil.answer(doc, !this.correct ? "100" : "0", null, "falsch", "html", ""));
+                XMLUtil.answer(doc, this.correct ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), null, "richtig", "html", ""),
+                XMLUtil.answer(doc, !this.correct ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), null, "falsch", "html", ""));
         return question;
     }
 }

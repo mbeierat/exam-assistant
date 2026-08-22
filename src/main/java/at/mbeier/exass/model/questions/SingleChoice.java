@@ -4,6 +4,7 @@ import at.mbeier.exass.excel.ExcelCell;
 import at.mbeier.exass.excel.ExcelRow;
 import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
+import at.mbeier.exass.model.AnswerWeight;
 import at.mbeier.exass.model.Question;
 import at.mbeier.exass.model.QuestionType;
 import org.apache.poi.ss.usermodel.CellType;
@@ -81,7 +82,7 @@ public class SingleChoice extends Question {
                 XMLUtil.textElement(doc, "answernumbering", "abc"));
         for (MultipleChoiceAnswer answer : this.answers) {
             XMLUtil.append(question,
-                    XMLUtil.answer(doc, answer.isCorrect() ? "100" : "0", "html", answer.getText(), "html", ""));
+                    XMLUtil.answer(doc, answer.isCorrect() ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), "html", answer.getText(), "html", ""));
         }
         return question;
     }

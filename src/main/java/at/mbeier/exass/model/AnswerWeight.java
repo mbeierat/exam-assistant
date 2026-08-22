@@ -40,6 +40,10 @@ public enum AnswerWeight {
         return this.representation;
     }
 
+    public String getXMLRepresentation() {
+        return this.getRepresentation().isEmpty() ? "0" : this.getRepresentation();
+    }
+
     public static AnswerWeight calculate(int total, int amountCorrect) {
         return AnswerWeight.parse((double) amountCorrect / (double) total * 100.0);
     }

@@ -120,7 +120,7 @@ public class MultipleChoice extends Question {
                  XMLUtil.textElement(doc, "answernumbering", "abc"));
         for (MultipleChoiceAnswer answer : this.answers) {
             XMLUtil.append(question,
-                    XMLUtil.answer(doc, (answer.isCorrect() ? "" : "-") + answer.getWeight().getRepresentation(), "html", answer.getText(), "html", ""));
+                    XMLUtil.answer(doc, (answer.isCorrect() ? "" : "-") + answer.getWeight().getXMLRepresentation(), "html", answer.getText(), "html", ""));
         }
         return question;
     }
