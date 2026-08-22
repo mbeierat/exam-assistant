@@ -23,7 +23,7 @@ public enum QuestionType {
     DRAG_N_DROP_TEXT("Drag n Drop Text", DragNDropText.class),
     DRAG_N_DROP_MARKINGS("Drag n Drop Markierungen", DragNDropMarkings.class),
     EASY_CALCULATE("Einfach Berechnen", EasyCalculate.class),
-    LEARNCARD("Lernkarte", LearnCard.class),
+    FLASHCARD("Lernkarte", FlashCard.class),
     TEXT_DROP_DOWN("Lückentextauswahl", TextDropDown.class),
     DESCRIPTION("DESCRIPTION", Description.class);
 
