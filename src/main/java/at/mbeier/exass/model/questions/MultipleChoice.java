@@ -40,7 +40,6 @@ public class MultipleChoice extends Question {
         } else {
             mode = InputMode.WEIGHTED;
         }
-        int total = 0;
         int amountCorrect = 0;
         for (int i = 5; i < row.getCells().size(); i += 2) {
             if (row.getCells().get(i).getType() != CellType.STRING)
@@ -76,13 +75,12 @@ public class MultipleChoice extends Question {
                     new MultipleChoiceAnswer(answertext, correct, weight) :
                     new MultipleChoiceAnswer(answertext, correct);
             this.answers.add(answer);
-            total++;
             amountCorrect += (correct ? 1 : 0);
         }
         if (amountCorrect < 1)
             throw new IllegalArgumentException("A multiple choice question must have at least one correct answer");
         double totalWeight = 0.0;
-        AnswerWeight weight = AnswerWeight.calculate(total, amountCorrect);
+        AnswerWeight weight = AnswerWeight.calculate(this.answers.size(), amountCorrect);
         for (MultipleChoiceAnswer answer : answers) {
             if (mode == InputMode.TRUE_FALSE)
                 answer.setWeight(weight);
