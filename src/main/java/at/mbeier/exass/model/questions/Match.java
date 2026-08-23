@@ -31,7 +31,7 @@ public class Match extends Question {
     public void createFrom(ExcelRow row) {
         ImportUtil.setStandardQuestionFields(this, row);
         for (int i = 5; i < row.getCells().size(); i += 2) {
-            if (row.getCells().get(i).getType() != CellType.STRING || row.getCells().get(i).getType() != CellType.BLANK)
+            if (row.getCells().get(i).getType() != CellType.STRING && row.getCells().get(i).getType() != CellType.BLANK)
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Prompt Text) needs to be a string (or blank if extra answers are introduced)");
             ExcelCell answerCell;
             try {
