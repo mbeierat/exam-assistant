@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 
 public class EasyCalculate extends Question {
 
+    //TODO implement
+
     public EasyCalculate() {
         super();
     }

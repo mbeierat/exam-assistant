@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 
 public class Cloze extends Question {
 
+    //TODO implement
+
     public Cloze() {
         super();
     }

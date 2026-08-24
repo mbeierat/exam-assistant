@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 
 public class CalculateMultipleChoice extends Question {
 
+    //TODO implement
+
     public CalculateMultipleChoice() {
         super();
     }
