@@ -7,7 +7,14 @@ public enum QuestionProperty {
     USE_CASE("usecase", "0", QuestionType.SHORT_ANSWER),
     RESPONSE_FORMAT("responseformat", "editor", QuestionType.ESSAY),
     RESPONSE_REQUIRED("responserequired", "1", QuestionType.ESSAY),
-    RESPONSE_FIELD_LINES("responsefieldlines", "20", QuestionType.ESSAY);
+    RESPONSE_FIELD_LINES("responsefieldlines", "20", QuestionType.ESSAY),
+    LAYOUT_TYPE("layouttype", "VERTICAL", QuestionType.ORDER),
+    SELECT_TYPE("selecttype", "ALL", QuestionType.ORDER),
+    SELECT_COUNT("selectcount", "2", QuestionType.ORDER),
+    GRADING_TYPE("gradingstyle", "ABSOLUTE_POSITION", QuestionType.ORDER),
+    SHOW_GRADING("showgrading", "SHOW", QuestionType.ORDER),
+    NUMBERING_STYLE("numberingstyle", "none", QuestionType.ORDER);
+
 
     private final String representation;
     private final String defaultValue;

@@ -1,0 +1,23 @@
+package at.mbeier.exass.model.properties;
+
+public enum GradingType {
+    ALL_OR_NOTHING("ALL_OR_NOTHING"),
+    ABSOLUTE_POSITION("ABSOLUTE_POSITION"),
+    RELATIVE_TO_CORRECT("RELATIVE_TO_CORRECT"),
+    RELATIVE_NEXT_EXCLUDE_LAST("RELATIVE_NEXT_EXCLUDE_LAST"),
+    RELATIVE_NEXT_INCLUDE_LAST("RELATIVE_NEXT_INCLUDE_LAST"),
+    RELATIVE_ONE_PREVIOUS_AND_NEXT("RELATIVE_ONE_PREVIOUS_AND_NEXT"),
+    RELATIVE_ALL_PREVIOUS_AND_NEXT("RELATIVE_ALL_PREVIOUS_AND_NEXT"),
+    LONGEST_ORDERED_SUBSET("LONGEST_ORDERED_SUBSET"),
+    LONGEST_CONTIGUOUS_SUBSET("LONGEST_CONTIGUOUS_SUBSET");
+
+    private final String name;
+
+    GradingType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
