@@ -55,7 +55,7 @@ public class TextDropDown extends Question {
             TextDropDownAnswer answer = new TextDropDownAnswer(answerText, group);
             this.answers.add(answer);
         }
-        if (super.getText().contains("[[" + (this.answers.size() + 1) + "]]"))
+        if (super.getText().contains("[[" + this.answers.size() + "]]"))
             throw new IllegalArgumentException("There must be at least as many answers as placeholders in the question text");
     }
 
