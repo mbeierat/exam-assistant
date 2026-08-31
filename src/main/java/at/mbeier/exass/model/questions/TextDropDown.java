@@ -43,7 +43,7 @@ public class TextDropDown extends Question {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Group) needs to have a value");
             }
             if (groupCell.getType() != CellType.STRING && groupCell.getType() != CellType.NUMERIC) {
-                throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Answer Text) needs to be a string (group identified by character, i.e. A, B, C) or number (group identified by number, i.e. 1, 2, 3)");
+                throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Group) needs to be a string (group identified by character, i.e. A, B, C) or number (group identified by number, i.e. 1, 2, 3)");
             }
             int group = 0;
             if (groupCell.getType() == CellType.STRING) {
