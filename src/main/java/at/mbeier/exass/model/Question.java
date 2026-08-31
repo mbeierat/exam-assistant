@@ -20,6 +20,8 @@ public abstract class Question {
     private String text;
     private int points;
 
+    private QuestionConfiguration config;
+
     /**
      * No-arg constructor used by QuestionType#parse, which instantiates the
      * subclass reflectively and then calls createFrom(ExcelRow) to fill it in.
@@ -63,6 +65,14 @@ public abstract class Question {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public QuestionConfiguration getConfig() {
+        return this.config;
+    }
+
+    public void setConfig(QuestionConfiguration config) {
+        this.config = config;
     }
 
     public abstract String toGIFTString();
