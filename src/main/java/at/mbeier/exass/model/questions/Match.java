@@ -72,11 +72,7 @@ public class Match extends Question {
     @Override
     public Element toXMLElement(Document doc) {
         Element question = XMLUtil.question(doc, "matching");
-        XMLUtil.append(question,
-                XMLUtil.moodleText(doc, "name", super.getTitle()),
-                XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
-                XMLUtil.textElement(doc, "shuffleanswers", "true"));
+        super.appendStandardXMLChilds(doc, question);
         for (MatchingPair pair : this.matchingItems) {
             Element subQ = XMLUtil.moodleText(doc, "subquestion", "html", pair.isAnswerUnmatched() ? "" : pair.prompt());
             XMLUtil.append(subQ, XMLUtil.moodleText(doc, "answer", pair.answer()));

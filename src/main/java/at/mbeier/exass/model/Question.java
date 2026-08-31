@@ -2,9 +2,11 @@ package at.mbeier.exass.model;
 
 import at.mbeier.exass.excel.ExcelRow;
 
+import at.mbeier.exass.exporter.XMLUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -84,6 +86,17 @@ public abstract class Question {
      * question in the export has been added.
      */
     public abstract Element toXMLElement(Document doc);
+
+    protected void appendStandardXMLChilds(Document doc, Element question) {
+        XMLUtil.append(question,
+                XMLUtil.moodleText(doc, "name", this.getTitle()),
+                XMLUtil.moodleText(doc, "questiontext", "html", this.getText()),
+                XMLUtil.textElement(doc, "defaultgrade", this.getPoints() + ""));
+        Map<QuestionProperty, String> configs = this.getConfig().getConfigForType(this.getType());
+        for (Map.Entry<QuestionProperty, String> entry : configs.entrySet()) {
+            XMLUtil.append(question, XMLUtil.textElement(doc, entry.getKey().getRepresentation(), entry.getValue()));
+        }
+    }
 
     /**
      * Fills this question's type-specific fields from a parsed Excel row.

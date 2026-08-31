@@ -6,10 +6,13 @@ import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
 import at.mbeier.exass.model.AnswerWeight;
 import at.mbeier.exass.model.Question;
+import at.mbeier.exass.model.QuestionProperty;
 import at.mbeier.exass.model.QuestionType;
 import org.apache.poi.ss.usermodel.CellType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.util.Map;
 
 public class TrueFalse extends Question {
 
@@ -51,11 +54,8 @@ public class TrueFalse extends Question {
     @Override
     public Element toXMLElement(Document doc) {
         Element question = XMLUtil.question(doc, "truefalse");
+        super.appendStandardXMLChilds(doc, question);
         XMLUtil.append(question,
-                XMLUtil.moodleText(doc, "name", super.getTitle()),
-                XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
-                XMLUtil.textElement(doc, "showstandardinstruction", "0"),
                 XMLUtil.answer(doc, this.correct ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), null, "richtig", "html", ""),
                 XMLUtil.answer(doc, !this.correct ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), null, "falsch", "html", ""));
         return question;

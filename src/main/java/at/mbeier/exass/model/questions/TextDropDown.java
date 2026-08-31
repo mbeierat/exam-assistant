@@ -5,6 +5,7 @@ import at.mbeier.exass.excel.ExcelRow;
 import at.mbeier.exass.excel.ImportUtil;
 import at.mbeier.exass.exporter.XMLUtil;
 import at.mbeier.exass.model.Question;
+import at.mbeier.exass.model.QuestionProperty;
 import at.mbeier.exass.model.QuestionType;
 import org.apache.poi.ss.usermodel.CellType;
 import org.w3c.dom.Document;
@@ -12,6 +13,7 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TextDropDown extends Question {
 
@@ -65,11 +67,7 @@ public class TextDropDown extends Question {
     @Override
     public Element toXMLElement(Document doc) {
         Element question = XMLUtil.question(doc, "gapselect");
-        XMLUtil.append(question,
-                XMLUtil.moodleText(doc, "name", super.getTitle()),
-                XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
-                XMLUtil.textElement(doc, "shuffleanswers", "true"));
+        super.appendStandardXMLChilds(doc, question);
         for (TextDropDownAnswer answer : this.answers) {
             Element selectOption = XMLUtil.moodleText(doc, "selectoption", answer.answer());
             Element group = XMLUtil.element(doc, "group");

@@ -38,10 +38,8 @@ public class FlashCard extends Question {
     @Override
     public Element toXMLElement(Document doc) {
         Element question = XMLUtil.question(doc,"flashcard");
+        super.appendStandardXMLChilds(doc, question);
         XMLUtil.append(question,
-                XMLUtil.moodleText(doc, "name", super.getTitle()),
-                XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
                 XMLUtil.answer(doc, AnswerWeight.P0.getXMLRepresentation(), "html", this.answer, "html", ""));
         return XMLUtil.element(doc, "question");
     }

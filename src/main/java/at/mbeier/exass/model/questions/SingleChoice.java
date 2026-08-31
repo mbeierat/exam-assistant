@@ -72,14 +72,9 @@ public class SingleChoice extends Question {
     @Override
     public Element toXMLElement(Document doc) {
         Element question = XMLUtil.question(doc, "multichoice");
+        super.appendStandardXMLChilds(doc, question);
         XMLUtil.append(question,
-                XMLUtil.moodleText(doc, "name", super.getTitle()),
-                XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
-                XMLUtil.textElement(doc, "single", "true"),
-                XMLUtil.textElement(doc, "shuffleanswers", "true"),
-                XMLUtil.textElement(doc, "showstandardinstruction", "0"),
-                XMLUtil.textElement(doc, "answernumbering", "abc"));
+                XMLUtil.textElement(doc, "single", "true"));
         for (MultipleChoiceAnswer answer : this.answers) {
             XMLUtil.append(question,
                     XMLUtil.answer(doc, answer.isCorrect() ? AnswerWeight.P100.getXMLRepresentation() : AnswerWeight.P0.getXMLRepresentation(), "html", answer.getText(), "html", ""));

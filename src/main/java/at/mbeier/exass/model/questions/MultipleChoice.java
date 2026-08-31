@@ -107,15 +107,10 @@ public class MultipleChoice extends Question {
 
     @Override
     public Element toXMLElement(Document doc) {
-         Element question = XMLUtil.question(doc, "multichoice");
-         XMLUtil.append(question,
-                 XMLUtil.moodleText(doc, "name", super.getTitle()),
-                 XMLUtil.moodleText(doc, "questiontext", "html", super.getText()),
-                 XMLUtil.textElement(doc, "defaultgrade", super.getPoints() + ""),
-                 XMLUtil.textElement(doc, "single", "false"),
-                 XMLUtil.textElement(doc, "shuffleanswers", "true"),
-                 XMLUtil.textElement(doc, "showstandardinstruction", "0"),
-                 XMLUtil.textElement(doc, "answernumbering", "abc"));
+        Element question = XMLUtil.question(doc, "multichoice");
+        super.appendStandardXMLChilds(doc, question);
+        XMLUtil.append(question,
+                XMLUtil.textElement(doc, "single", "false"));
         for (MultipleChoiceAnswer answer : this.answers) {
             XMLUtil.append(question,
                     XMLUtil.answer(doc, (answer.isCorrect() ? "" : "-") + answer.getWeight().getXMLRepresentation(), "html", answer.getText(), "html", ""));
