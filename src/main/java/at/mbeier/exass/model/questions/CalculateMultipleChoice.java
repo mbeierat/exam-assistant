@@ -9,8 +9,6 @@ import org.w3c.dom.Element;
 
 public class CalculateMultipleChoice extends Question {
 
-    //TODO implement
-
     public CalculateMultipleChoice() {
         super();
     }
@@ -21,15 +19,16 @@ public class CalculateMultipleChoice extends Question {
 
     @Override
     public void createFrom(ExcelRow row) {
+        throw new UnsupportedOperationException("This question type is not supported yet.");
     }
 
     @Override
     public String toGIFTString() {
-        return "";
+        throw new UnsupportedOperationException("This question type is not supported yet.");
     }
 
     @Override
     public Element toXMLElement(Document doc) {
-        return XMLUtil.element(doc, "question");
+        throw new UnsupportedOperationException("This question type is not supported yet.");
     }
 }
