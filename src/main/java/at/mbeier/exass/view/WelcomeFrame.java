@@ -4,6 +4,8 @@ import at.mbeier.exass.controller.ExportController;
 import at.mbeier.exass.controller.ImportController;
 import at.mbeier.exass.excel.ImportResult;
 import at.mbeier.exass.model.Category;
+import at.mbeier.exass.model.Question;
+import at.mbeier.exass.model.QuestionConfiguration;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +19,14 @@ public class WelcomeFrame extends JFrame {
     private final ImportController importController = new ImportController();
     private final ExportController exportController = new ExportController();
     private final QuestionTableModel tableModel = new QuestionTableModel();
+
+    /**
+     * Shared across the whole import run: every question loaded from the
+     * Excel file is pointed at this same instance, so editing a value in the
+     * QuestionPropertyDialog is immediately reflected for every question of
+     * a compatible type at export time.
+     */
+    private final QuestionConfiguration questionConfiguration = new QuestionConfiguration();
 
     private List<Category> loadedCategories = List.of();
 
@@ -56,7 +66,15 @@ public class WelcomeFrame extends JFrame {
         this.exportButton.addActionListener(e -> onExport());
         panel.add(this.exportButton);
 
+        JButton propertiesButton = new JButton("Question Properties...");
+        propertiesButton.addActionListener(e -> onEditQuestionProperties());
+        panel.add(propertiesButton);
+
         return panel;
+    }
+
+    private void onEditQuestionProperties() {
+        new QuestionPropertyDialog(this, this.questionConfiguration).setVisible(true);
     }
 
     private JComponent buildStatusArea() {
@@ -98,6 +116,11 @@ public class WelcomeFrame extends JFrame {
      * load into the table if there are no errors" rule.
      */
     private void showSuccess(List<Category> categories) {
+        for (Category category : categories) {
+            for (Question question : category.getQuestions()) {
+                question.setConfig(this.questionConfiguration);
+            }
+        }
         this.loadedCategories = categories;
         this.tableModel.setCategories(categories);
         this.exportButton.setEnabled(!categories.isEmpty());
