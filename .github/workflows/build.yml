@@ -30,9 +30,12 @@ jobs:
           path: target/surefire-reports/
           if-no-files-found: warn
 
-  build:
+  release:
     needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -47,9 +50,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -DskipTests
 
-      - name: Upload jar artifact
-        uses: actions/upload-artifact@v4
+      - name: Publish latest release
+        uses: softprops/action-gh-release@v2
         with:
-          name: exam-assistant-jar
-          path: target/exam-assistant-*-SNAPSHOT.jar
-          if-no-files-found: error
+          tag_name: latest
+          name: Latest build
+          make_latest: true
+          files: target/exam-assistant-*-SNAPSHOT.jar
