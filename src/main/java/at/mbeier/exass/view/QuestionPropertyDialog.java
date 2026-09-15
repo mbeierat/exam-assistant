@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * at export time. Fields start out showing that configuration's current
  * values, which are the property defaults until edited.
  */
+@SuppressWarnings("serial")
 public class QuestionPropertyDialog extends JDialog {
 
     private record Field(QuestionProperty property, Consumer<String> valueSetter) {}

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class WelcomeFrame extends JFrame {
 
     private final ImportController importController = new ImportController();

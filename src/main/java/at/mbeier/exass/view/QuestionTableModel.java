@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class QuestionTableModel extends AbstractTableModel {
 
     private static final String[] COLUMNS = {"Category", "Type", "Title", "Points"};
