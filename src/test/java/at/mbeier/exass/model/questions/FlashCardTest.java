@@ -31,11 +31,7 @@ class FlashCardTest {
     }
 
     @Test
-    void toXMLElementDiscardsEverythingItBuilt() {
-        // toXMLElement builds up the "flashcard" question element with the
-        // standard fields and the answer, but then returns a brand new bare
-        // <question> element instead of the one it just built - none of that
-        // content ever makes it into the export.
+    void toXMLElementContainsAnswer() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0,
@@ -48,10 +44,11 @@ class FlashCardTest {
 
         Document doc = XMLUtil.newDocument();
         Element element = question.toXMLElement(doc);
+        doc.appendChild(element);
 
         assertEquals("question", element.getTagName());
-        assertEquals("", element.getAttribute("type"));
-        assertEquals(0, element.getChildNodes().getLength());
+        assertEquals("flashcard", element.getAttribute("type"));
+        assertTrue(XMLUtil.toXMLString(doc).contains("4"));
     }
 
     @Test

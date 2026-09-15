@@ -1,6 +1,7 @@
 package at.mbeier.exass.excel;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ public class ExcelRow {
         for (int i = 0; i < row.getLastCellNum(); i++) {
             Cell c = row.getCell(i);
             if (c == null) {
-                break;
+                this.cells.add(new ExcelCell(i, null, CellType.BLANK));
+                continue;
             }
             Object content = switch (c.getCellType()) {
                 case NUMERIC -> c.getNumericCellValue();
@@ -25,9 +27,6 @@ public class ExcelRow {
                 case BOOLEAN -> c.getBooleanCellValue();
                 default -> null;
             };
-            if (content == null) {
-                break;
-            }
             this.cells.add(new ExcelCell(i, content, c.getCellType()));
         }
     }

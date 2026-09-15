@@ -41,6 +41,6 @@ public class FlashCard extends Question {
         super.appendStandardXMLChilds(doc, question);
         XMLUtil.append(question,
                 XMLUtil.answer(doc, AnswerWeight.P0.getXMLRepresentation(), "html", this.answer, "html", ""));
-        return XMLUtil.element(doc, "question");
+        return question;
     }
 }

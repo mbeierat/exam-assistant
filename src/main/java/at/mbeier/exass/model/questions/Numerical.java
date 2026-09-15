@@ -34,13 +34,13 @@ public class Numerical extends Question {
             if (row.getCells().get(i).getType() != CellType.NUMERIC)
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Answer Value) needs to be a number");
             double answer = ((Number) row.getCells().get(i).getContent()).doubleValue();
-            if (row.getCells().get(i + 1).getType() != CellType.NUMERIC || row.getCells().get(i + 1).getType() != CellType.BLANK)
+            if (row.getCells().get(i + 1).getType() != CellType.NUMERIC && row.getCells().get(i + 1).getType() != CellType.BLANK)
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Answer Tolerance) needs to be a number (or blank)");
             double tolerance = 0.0;
             if (row.getCells().get(i + 1).getType() == CellType.NUMERIC)
                  tolerance = ((Number) row.getCells().get(i + 1).getContent()).doubleValue();
             AnswerWeight weight = AnswerWeight.P100;
-            if (row.getCells().get(i + 2).getType() != CellType.NUMERIC || row.getCells().get(i + 2).getType() != CellType.BLANK)
+            if (row.getCells().get(i + 2).getType() != CellType.NUMERIC && row.getCells().get(i + 2).getType() != CellType.BLANK)
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 2) + " (Answer Weight) needs to be a number (or blank)");
             if (row.getCells().get(i + 2).getType() == CellType.NUMERIC)
                 weight = AnswerWeight.parse(((Number) row.getCells().get(i + 2).getContent()).doubleValue());

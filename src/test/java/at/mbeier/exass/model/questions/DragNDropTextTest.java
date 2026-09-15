@@ -9,9 +9,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,9 +21,6 @@ class DragNDropTextTest {
     void parsesAnswerGroupsAndBuildsXmlElement() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
-        // Numeric groups, since a letter group (e.g. "A") trips
-        // createFrom's "Infinite?" check regardless of the infinite value -
-        // see letterGroupAlwaysFailsInfiniteCheck below.
         ExcelRow row = TestSupport.row(sheet, 0,
                 "Chapter1", "Drag n Drop Text", "Q1", "Drag [[1]] into [[2]]", 1,
                 "A", 1, false, "B", 2, true);
@@ -37,10 +34,16 @@ class DragNDropTextTest {
         doc.appendChild(element);
 
         assertEquals("ddwtos", element.getAttribute("type"));
-        // The per-answer <dragbox> elements are built but never appended to
-        // the returned <question> element, so none of that content actually
-        // makes it into the exported XML.
-        assertFalse(XMLUtil.toXMLString(doc).contains("dragbox"));
+        NodeList dragBoxes = element.getElementsByTagName("dragbox");
+        assertEquals(2, dragBoxes.getLength());
+
+        Element firstBox = (Element) dragBoxes.item(0);
+        assertEquals("1", firstBox.getElementsByTagName("group").item(0).getTextContent());
+        assertEquals(0, firstBox.getElementsByTagName("infinite").getLength());
+
+        Element secondBox = (Element) dragBoxes.item(1);
+        assertEquals("2", secondBox.getElementsByTagName("group").item(0).getTextContent());
+        assertEquals(1, secondBox.getElementsByTagName("infinite").getLength());
     }
 
     @Test
@@ -63,10 +66,7 @@ class DragNDropTextTest {
     }
 
     @Test
-    void letterGroupAlwaysFailsInfiniteCheck() {
-        // createFrom's "Infinite?" validation checks groupCell's type
-        // instead of infinteCell's, so a letter-based group (a STRING cell)
-        // always fails it, no matter what the infinite cell actually holds.
+    void letterGroupWithBooleanInfiniteValueParses() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0,
@@ -74,8 +74,36 @@ class DragNDropTextTest {
                 "A", "A", true);
 
         DragNDropText question = new DragNDropText();
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> question.createFrom(row));
-        assertTrue(ex.getMessage().contains("Infinite?"));
+        question.createFrom(row);
+        question.setConfig(new QuestionConfiguration());
+
+        Document doc = XMLUtil.newDocument();
+        Element element = question.toXMLElement(doc);
+        doc.appendChild(element);
+
+        Element dragBox = (Element) element.getElementsByTagName("dragbox").item(0);
+        assertEquals("1", dragBox.getElementsByTagName("group").item(0).getTextContent());
+        assertEquals(1, dragBox.getElementsByTagName("infinite").getLength());
+    }
+
+    @Test
+    void letterGroupWithNumericInfiniteValueParses() {
+        Workbook wb = TestSupport.newWorkbook();
+        Sheet sheet = wb.createSheet();
+        ExcelRow row = TestSupport.row(sheet, 0,
+                "Chapter1", "Drag n Drop Text", "Q1", "Drag [[1]]", 1,
+                "A", "A", 0);
+
+        DragNDropText question = new DragNDropText();
+        question.createFrom(row);
+        question.setConfig(new QuestionConfiguration());
+
+        Document doc = XMLUtil.newDocument();
+        Element element = question.toXMLElement(doc);
+        doc.appendChild(element);
+
+        Element dragBox = (Element) element.getElementsByTagName("dragbox").item(0);
+        assertEquals(0, dragBox.getElementsByTagName("infinite").getLength());
     }
 
     @Test

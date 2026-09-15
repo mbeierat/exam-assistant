@@ -73,7 +73,7 @@ public class ShortAnswer extends Question {
         for (WeightedShortAnswer answer : this.answers) {
             XMLUtil.append(question, XMLUtil.answer(doc, answer.weight().getRepresentation(), null, answer.answer(), "html", ""));
         }
-        return XMLUtil.element(doc, "question");
+        return question;
     }
 }
 

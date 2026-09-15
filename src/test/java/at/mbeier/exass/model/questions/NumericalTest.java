@@ -30,12 +30,7 @@ class NumericalTest {
     }
 
     @Test
-    void anySuppliedAnswerAlwaysThrowsOnTheToleranceCheck() {
-        // createFrom's tolerance-column check is
-        // "type != NUMERIC || type != BLANK", which is a tautology: no
-        // CellType can be both NUMERIC and BLANK at once, so at least one
-        // side is always true and the throw always fires. A perfectly
-        // valid numeric answer/tolerance pair still can't get past it.
+    void parsesAnswerWithToleranceAndWeight() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0,
@@ -43,8 +38,9 @@ class NumericalTest {
                 3, 0, 100);
 
         Numerical question = new Numerical();
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> question.createFrom(row));
-        assertTrue(ex.getMessage().contains("Answer Tolerance"));
+        question.createFrom(row);
+
+        assertTrue(question.toGIFTString().contains("=%100%3.0:0.0#"));
     }
 
     @Test

@@ -58,13 +58,13 @@ public class DragNDropText extends Question {
             } catch (IndexOutOfBoundsException e) {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 2) + " (Infinite?) needs to have a value");
             }
-            if (groupCell.getType() != CellType.BOOLEAN && groupCell.getType() != CellType.NUMERIC) {
+            if (infinteCell.getType() != CellType.BOOLEAN && infinteCell.getType() != CellType.NUMERIC) {
                 throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + i + " (Infinite?) needs to be a boolean (true/false) or number (0/1)");
             }
             boolean infinite = false;
             if (infinteCell.getType() == CellType.BOOLEAN) {
                 infinite = (Boolean) infinteCell.getContent();
-            } else if (groupCell.getType() == CellType.NUMERIC) {
+            } else if (infinteCell.getType() == CellType.NUMERIC) {
                 infinite = ((Number) infinteCell.getContent()).intValue() == 1;
             }
             DragNDropTextAnswer answer = new DragNDropTextAnswer(answerText, group, infinite);
@@ -93,6 +93,7 @@ public class DragNDropText extends Question {
                     XMLUtil.textElement(doc, "group", answer.group() + ""));
             if (answer.infinite())
                 XMLUtil.append(dragBox, XMLUtil.element(doc, "infinite"));
+            XMLUtil.append(question, dragBox);
         }
         return question;
     }

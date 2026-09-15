@@ -56,18 +56,7 @@ class MatchTest {
     }
 
     @Test
-    void blankPromptForUnmatchedAnswerIsSilentlyLostInstead() {
-        // A blank prompt cell is meant to introduce an extra, unmatched
-        // answer (see the error message below). But ExcelRow (see
-        // ExcelRowTest) never actually produces a BLANK cell - it silently
-        // truncates the row at the first blank cell instead. So the third
-        // pair here (the intended unmatched "A3") never even makes it into
-        // row.getCells(), and createFrom's loop bound (which reads up to
-        // row.getCells().size()) just stops one pair early instead of
-        // failing loudly - leaving only 2 prompts/2 answers, which then
-        // fails the "two prompts, three answers" check for an unrelated
-        // reason: not because too little was provided, but because a whole
-        // answer silently disappeared.
+    void blankPromptIntroducesUnmatchedExtraAnswer() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0,
@@ -75,8 +64,12 @@ class MatchTest {
                 "P1", "A1", "P2", "A2", null, "A3");
 
         Match question = new Match();
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> question.createFrom(row));
-        assertTrue(ex.getMessage().contains("at least two prompts and three answers"));
+        question.createFrom(row);
+
+        String gift = question.toGIFTString();
+        assertTrue(gift.contains("=P1 -> A1"));
+        assertTrue(gift.contains("=P2 -> A2"));
+        assertTrue(gift.contains("= -> A3"));
     }
 
     @Test

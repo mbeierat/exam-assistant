@@ -1,7 +1,9 @@
 package at.mbeier.exass.excel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -43,11 +45,13 @@ public class ExcelFile implements AutoCloseable {
     public List<ExcelRow> getRows() {
         List<ExcelRow> rows = new ArrayList<>();
         for (Sheet sheet : this.sheets) {
-            for (int i = 0; i < sheet.getLastRowNum(); i++) {
-                if (sheet.getRow(i).getCell(0).getCellType() == CellType.STRING &&
-                        sheet.getRow(i).getCell(0).getStringCellValue().startsWith("#"))
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+                Cell first = row.getCell(0);
+                if (first != null && first.getCellType() == CellType.STRING && first.getStringCellValue().startsWith("#"))
                     continue;
-                ExcelRow er = new ExcelRow(sheet.getRow(i));
+                ExcelRow er = new ExcelRow(row);
                 if (er.isEmpty()) continue;
                 rows.add(er);
             }

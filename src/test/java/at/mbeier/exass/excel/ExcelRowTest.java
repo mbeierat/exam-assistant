@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExcelRowTest {
 
@@ -24,28 +26,34 @@ class ExcelRowTest {
     }
 
     @Test
-    void aBlankCellSilentlyTruncatesEverythingAfterIt() {
-        // A blank cell maps to a null "content" in the constructor's switch,
-        // and that null makes the scan break instead of just skipping this
-        // one cell - so the blank cell itself, and every real value after
-        // it, never make it into getCells() at all. There is no way to
-        // produce a CellType.BLANK ExcelCell this way; callers that check
-        // for one (Essay, Numerical, Match's prompt column, ...) can never
-        // actually see it from a real Excel-sourced row.
+    void aBlankCellIsKeptAndDoesNotTruncateLaterCells() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0, "A", "B", null, "D");
 
-        assertEquals(2, row.getCells().size());
-        assertFalse(row.getCells().stream().anyMatch(c -> c.getType() == CellType.BLANK));
+        assertEquals(4, row.getCells().size());
+        assertEquals(CellType.BLANK, row.getCells().get(2).getType());
+        assertNull(row.getCells().get(2).getContent());
+        assertEquals("D", row.getCells().get(3).getContent());
     }
 
     @Test
-    void isEmptyWhenTheVeryFirstCellIsBlank() {
+    void aRowWithOnlyOneBlankCellIsNotEmpty() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0, (Object) null);
 
-        assertEquals(0, row.getCells().size());
+        assertEquals(1, row.getCells().size());
+        assertEquals(CellType.BLANK, row.getCells().getFirst().getType());
+        assertFalse(row.isEmpty());
+    }
+
+    @Test
+    void aRowWithNoCellsAtAllIsEmpty() {
+        Workbook wb = TestSupport.newWorkbook();
+        Sheet sheet = wb.createSheet();
+        ExcelRow row = TestSupport.row(sheet, 0);
+
+        assertTrue(row.isEmpty());
     }
 }

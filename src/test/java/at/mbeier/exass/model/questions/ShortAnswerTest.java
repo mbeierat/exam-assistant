@@ -33,10 +33,7 @@ class ShortAnswerTest {
     }
 
     @Test
-    void toXMLElementDiscardsEverythingItBuilt() {
-        // Just like FlashCard, toXMLElement here builds up "question" with
-        // the standard fields and every answer, but returns a fresh bare
-        // <question> element instead - none of that content is exported.
+    void toXMLElementContainsAnswers() {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet();
         ExcelRow row = TestSupport.row(sheet, 0,
@@ -49,10 +46,11 @@ class ShortAnswerTest {
 
         Document doc = XMLUtil.newDocument();
         Element element = question.toXMLElement(doc);
+        doc.appendChild(element);
 
         assertEquals("question", element.getTagName());
-        assertEquals("", element.getAttribute("type"));
-        assertEquals(0, element.getChildNodes().getLength());
+        assertEquals("shortanswer", element.getAttribute("type"));
+        assertTrue(XMLUtil.toXMLString(doc).contains("Blue"));
     }
 
     @Test

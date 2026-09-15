@@ -37,18 +37,20 @@ class ImportUtilTest {
         TestSupport.rawRow(sheet, 2, "#a commented-out row, must be skipped entirely");
         TestSupport.rawRow(sheet, 3, 123, "Wahr/Falsch", "Q3", "Bad category", 1, true);
         TestSupport.rawRow(sheet, 4, "Chapter2", "NotARealType", "Q4", "Bad type", 1, true);
-        // Sacrificial: ExcelFile#getRows loops "i < sheet.getLastRowNum()",
-        // which excludes the sheet's actual last row - so this row (and only
-        // this row) is silently never read. See sheetsLastDataRowIsDropped.
-        TestSupport.rawRow(sheet, 5);
+        // This is the sheet's actual last row - proves ExcelFile#getRows no
+        // longer drops it (see ExcelFileTest-style off-by-one fix).
+        TestSupport.rawRow(sheet, 5, "Chapter3", "Wahr/Falsch", "Q5", "Grass purple?", 1, false);
 
         try (ExcelFile file = writeAndOpen(wb, "Sheet1")) {
             ImportResult result = ImportUtil.importSheet(file);
 
-            assertEquals(1, result.categories().size());
+            assertEquals(2, result.categories().size());
             Category chapter1 = result.categories().getFirst();
             assertEquals("Chapter1", chapter1.getName());
             assertEquals(2, chapter1.getQuestions().size());
+            Category chapter3 = result.categories().get(1);
+            assertEquals("Chapter3", chapter3.getName());
+            assertEquals(1, chapter3.getQuestions().size());
 
             assertEquals(2, result.errors().size());
             assertTrue(result.errors().stream().anyMatch(e -> e.contains("Category Name")));
@@ -57,7 +59,7 @@ class ImportUtilTest {
     }
 
     @Test
-    void sheetsLastDataRowIsDropped() throws IOException {
+    void sheetsLastDataRowIsNoLongerDropped() throws IOException {
         Workbook wb = TestSupport.newWorkbook();
         Sheet sheet = wb.createSheet("Sheet1");
         TestSupport.rawRow(sheet, 0, "Chapter1", "Wahr/Falsch", "Q1", "Sky blue?", 1, true);
@@ -65,7 +67,8 @@ class ImportUtilTest {
         try (ExcelFile file = writeAndOpen(wb, "Sheet1")) {
             ImportResult result = ImportUtil.importSheet(file);
 
-            assertEquals(0, result.categories().size());
+            assertEquals(1, result.categories().size());
+            assertEquals(1, result.categories().getFirst().getQuestions().size());
             assertEquals(0, result.errors().size());
         }
     }
