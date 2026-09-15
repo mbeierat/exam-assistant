@@ -50,10 +50,30 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -DskipTests
 
+      - name: Describe commit
+        id: commit
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          {
+            echo 'message<<EOF'
+            git log -1 --format='%s%n%n%b'
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Delete previous latest release and tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete latest --yes --cleanup-tag || true
+
       - name: Publish latest release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
           name: Latest build
           make_latest: true
+          target_commitish: ${{ github.sha }}
+          body: |
+            Built from commit ${{ steps.commit.outputs.sha }}
+
+            ${{ steps.commit.outputs.message }}
           files: target/exam-assistant-*-SNAPSHOT.jar
