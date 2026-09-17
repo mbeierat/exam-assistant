@@ -64,7 +64,7 @@ public class MultipleChoice extends Question {
             } else {
                 if (correctCell.getType() != CellType.NUMERIC)
                     throw new IllegalArgumentException("Row " + row.getIndex() + " Column " + (i + 1) + " (Answer Correct) needs to be a number, as question is in weighted input mode");
-                int value = ((Number) correctCell.getContent()).intValue();
+                double value = ((Number) correctCell.getContent()).doubleValue();
                 correct = value < 0;
                 weight = AnswerWeight.parse(Math.abs(value));
                 if (weight == null)
@@ -120,5 +120,5 @@ public class MultipleChoice extends Question {
 }
 
 enum InputMode {
-    TRUE_FALSE, WEIGHTED;
+    TRUE_FALSE, WEIGHTED
 }
